@@ -1,6 +1,8 @@
 package ru.mikescherbakov.currencyexchangeservice;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CurrencyExchangeController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Environment environment;
     private final ExchangeValueRepository repository;
 
@@ -25,6 +28,7 @@ public class CurrencyExchangeController {
         Optional<String> port = Optional.ofNullable(environment.getProperty("local.server.port"));
         exchangeValue.setPort(Integer.parseInt(port.orElse("0")));
 
+        logger.info("{}", exchangeValue);
         return exchangeValue;
     }
 }
